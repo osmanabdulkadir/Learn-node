@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const storeController = require('../controllers/storeController');
 
-// Do work here
-router.get('/', (req, res) => {
-  const reborn = { name: "osman", age: 23, cool: true};
+const {catchErrors} = require('../handlers/errorHandlers')
 
-  res.render();
-});
+router.get('/', catchErrors(storeController.getStores));
+router.get('/stores', catchErrors(storeController.getStores));
+router.get('/add', storeController.addStore);
+router.post('/add',storeController.createStore);
+router.post('/add/:id', catchErrors(storeController.updateStore));
+router.get('/stores/:id/edit', catchErrors(storeController.editStore));
 
-router.get('/reverse/:name', (req,res) => {
-  const reverse = [...req.params.name].reverse().join("");
-  res.send(reverse);
-})
 
 module.exports = router;
